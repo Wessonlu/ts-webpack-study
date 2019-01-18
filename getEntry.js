@@ -6,15 +6,17 @@ const src =  path.resolve(__dirname, 'src');
 let jsonFiles = [];
 function findJsonFile(path, dir){
     let files = fs.readdirSync(path);
-    let fileAgg = {
-        dir: '',
-        file: ''
-    };
+    
     files.forEach(function (item, index) {
+        let fileAgg = {
+            dir: '',
+            file: ''
+        };
         let fPath = join(path, item);
         let stat = fs.statSync(fPath);
         if (stat.isFile() === true) {
-            if(/\.ts$/.test(item)) {                
+            if(/\.ts$/.test(item)) {  
+                console.log(item)              
                 fileAgg.dir = dir;
                 fileAgg.file = item;
                 jsonFiles.push(fileAgg);
@@ -33,7 +35,6 @@ jsonFiles.forEach(el => {
     let fileName = file.replace(/\.ts$/, "");
     let key = el.dir + '/' + fileName;
     entry[key] = './src/' + el.dir + '/' + file;
-
     htmlWebpack.push({
         title: file,
         template: './index.html',
@@ -41,8 +42,8 @@ jsonFiles.forEach(el => {
         chunks: [key]
     })
 })
-
 module.exports = {
     entry,
     htmlWebpack
 }
+
